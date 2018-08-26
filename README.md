@@ -36,7 +36,7 @@ The list of all supported self tests and the estimated time of such tests are di
 /usr/sbin/smartctl /dev/sda --test=short
 ```
 
-* The Extended self test performs the above and it has a complete surface scan which reveals the problematic areas (if any) and forces the bad sector reallocation. It is recommended to periodically use this test to verify the disk health - especially on a hard disk with less than 100% health. **NOTE : this test takes several hours !**
+* The Extended self test performs the above and it has a complete surface scan which reveals the problematic areas (if any) and forces the bad sector reallocation. It is recommended to periodically use this test to verify the disk health - especially on a hard disk with less than 100% health. **NOTE : this test takes several hours !** To follow the progression of this test you can use the `/usr/sbin/smartctl /dev/sda -a` command, search the output for the table `SMART Self-test log structure revision number 1`
 ```bash
 /usr/sbin/smartctl /dev/sda --test=long
 ```
@@ -45,3 +45,19 @@ The list of all supported self tests and the estimated time of such tests are di
 ```bash
 /usr/sbin/smartctl /dev/sda --test=conveyance
 ```
+
+To display the result of the tests, run the following command once the test is finished :
+```bash
+/usr/sbin/smartctl /dev/sda -a
+```
+The tests results are displayed on a table, sorted by execution date :
+```
+SMART Self-test log structure revision number 1
+Num  Test_Description    Status                  Remaining  LifeTime(hours)  LBA_of_first_error
+# 1  Short offline       Completed without error       00%     34291         -
+# 2  Short offline       Completed without error       00%     25869         -
+# 3  Short offline       Completed without error       00%         0         -
+```
+If the `LBA_of_first_error` column is empty, it means that the test ran without errors.  
+If a line indicates `# 6  Extended offline    Self-test routine in progress 90%` (only for extended self-test) it means that the test is still running, check back later.  
+If the test you just stared is not displayed (for short/conveyance self-test) it means that the test is still running, check back later.  
