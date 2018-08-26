@@ -13,7 +13,7 @@ To do this follow this link : https://support.wdc.com/knowledgebase/answer.aspx?
 You can now connect to your MyCloud SSH server using tools like Putty. The default username & password are one the link above.
 
 ## Drive SMART state
-The MyCloud does not offer a lot of information on the drive state on its web interface : you only have access to a diagnosis status that states "OK", same for the temparture. To get more information from the drive, the tool `smartctl` is available on the MyCloud OS.
+The MyCloud does not offer a lot of information on the drive state on its web interface : you only have access to a diagnosis status that states "OK", same for the temparture. To get more information from the drive, the tool `smartctl` is available on the MyCloud OS. The documentation can be found online here : https://www.smartmontools.org/browser/trunk/smartmontools/smartctl.8.in
 > NOTE : All the following commands are for a single-bay MyCloud. Adapt to use with more than one disk.
 
 To get all information from the disk SMART system printed in the console output :
