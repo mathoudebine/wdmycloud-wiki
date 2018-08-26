@@ -1,17 +1,18 @@
 # WD MyCloud Tips & Tricks
+![](http://mycloud.com/images/mycloudos3_desktop.png)  
 This page acts as a wiki for administartor commands and tools used with the MyCloud NAS sold by WD. The following page applies to the original MyCloud products, NOT the new "MyCloud Home" series.
 
 ## Disclaimer
 DO AT YOUR OWN RISK !  
-None of the authors, contributors, administrators, vandals, or anyone else connected with this page, in any way whatsoever, can be responsible for your use of the information contained in or linked from these web pages.
+Be very careful as you can brick your NAS firmware, and even damage the hardware by doing things wrong.  
+None of the authors, contributors, administrators, or anyone else connected with this page, in any way whatsoever, can be responsible for your use of the information contained in or linked from this web page.
 
 ## Pre-requisites
 To use the commands listed below, you need to have SSH support activated for your drive.  
 To do this follow this link : https://support.wdc.com/knowledgebase/answer.aspx?ID=10495  
 You can now connect to your MyCloud SSH server using tools like Putty. The default username & password are one the link above.
 
-## Useful commands
-### Drive SMART state
+## Drive SMART state
 The MyCloud does not offer a lot of information on the drive state on its web interface : you only have access to a diagnosis status that states "OK", same for the temparture. To get more information from the drive, the tool `smartctl` is available on the MyCloud OS.
 > NOTE : All the following commands are for a single-bay MyCloud. Adapt to use with more than one disk.
 
@@ -26,7 +27,7 @@ To get the temparture of the disk in °C (this is a command for the single-bay M
 /usr/sbin/smartctl /dev/sda -a | /bin/grep Temperature_Celsius | /usr/bin/awk '{print $10}'
 ```
 
-#### Self-tests
+### Self-tests
 The hardware self tests built in hard disks are the perfect solution to test the hard disk status quickly or with very high detail. Usually the short and extended self tests are supported by the hard disks but some models support other (conveyance) self test also. **The self tests are non-destructive, they do not affect the data stored on the hard disk**. During the test, the hard disk is still usable but may be slower. It is recommended not to use the hard drive actively while running a self test.
 
 The list of all supported self tests and the estimated time of such tests are displayed by the `/usr/sbin/smartctl /dev/sda -a` command.  By default, the MyCloud system does not run these tests periodically, and rely only on SMART pre-fail attributes to detect a disk failure. It can be a good idea to run these tests periodically, by a `cron` programmation or at least manually.
@@ -61,3 +62,21 @@ Num  Test_Description    Status                  Remaining  LifeTime(hours)  LBA
 If the `LBA_of_first_error` column is empty, it means that the test ran without errors.  
 If a line indicates `# 6  Extended offline    Self-test routine in progress 90%` (only for extended self-test) it means that the test is still running, check back later.  
 If the test you just stared is not displayed (for short/conveyance self-test) it means that the test is still running, check back later.  
+
+## Front panel LED
+The front panel LED is driven by the system using a standard led driver : the driver exposes the LED capabilities from userspace through file descriptor in the `/sys/class/leds/system_led/` folder.  
+
+**NOTE : once again, I advise you to be very careful while editing hardware-related driver states.** We don't know if the driver used by WD fully matches with hardware capabilities and/or authorized values range. For example, do not try to change the LED brightness as the SSH connection would crash.  
+
+All the modifications made will be overwriten at a time by the WD software and services that manage the NAS. If you want the modifications to persist, you have to put them in a script and apply them regularly e.g. with `cron`
+
+To change the LED color (basic colors are allowed : black, green, blue, red, orange, yellow, white ...) :
+```bash
+echo red > /sys/class/leds/system_led/color
+```
+
+To make the led blink ('blink') / static ('on'):
+```bash
+echo blink > /sys/class/leds/system_led/blink
+echo on > /sys/class/leds/system_led/blink
+```
