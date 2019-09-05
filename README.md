@@ -1,5 +1,5 @@
 # WD MyCloud Tips & Tricks
-![](http://mycloud.com/images/mycloudos3_desktop.png)  
+![](http://mycloud.com/910f08082f28927e8cddd4fbe8ee69a7.png)  
 This page acts as a wiki for administartor commands and tools used with the MyCloud NAS sold by WD. The following page applies to the original MyCloud products, NOT the new "MyCloud Home" series.
 
 ## Disclaimer
