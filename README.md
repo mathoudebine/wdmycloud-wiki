@@ -9,8 +9,8 @@ None of the authors, contributors, administrators, or anyone else connected with
 
 ## Pre-requisites
 To use the commands listed below, you need to have SSH support activated for your drive.  
-To do this follow this link : https://support.wdc.com/knowledgebase/answer.aspx?ID=10495  
-You can now connect to your MyCloud SSH server using tools like Putty. The default username & password are one the link above.
+To do this follow this link : https://support.wdc.com/instructions/?ID=10435  
+You can now connect to your MyCloud SSH server using tools like Putty. The username & password are specified when you enable SSH from the MyCloud Dashboard.
 
 ## Drive SMART state
 The MyCloud does not offer a lot of information on the drive state on its web interface : you only have access to a diagnosis status that states "OK", same for the temparture. To get more information from the drive, the tool `smartctl` is available on the MyCloud OS. The documentation can be found online here : https://www.smartmontools.org/browser/trunk/smartmontools/smartctl.8.in
